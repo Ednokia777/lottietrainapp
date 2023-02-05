@@ -1,7 +1,8 @@
-package com.saturnpro.tzapp
+package com.saturnpro.tzapp.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.saturnpro.tzapp.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
