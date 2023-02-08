@@ -21,7 +21,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class FirstScreenFragment : Fragment() {
     private val viewModel: SecondScreenViewModel by viewModels()
-
     private lateinit var binding: FragmentFirstScreenBinding
     private lateinit var go_to_second_screen: Button
     private lateinit var start_anim_btn: Button
@@ -54,11 +53,7 @@ class FirstScreenFragment : Fragment() {
         go_to_second_screen.setOnClickListener {
             findNavController().navigate(R.id.action_firstScreenFragment_to_secondScreenFragment)
         }
-        //startProgress()
         startProgressAndLottie()
-        start_anim_btn.setOnClickListener {
-            my_Animation.playAnimation()
-        }
         stop_anim_btn.setOnClickListener {
             my_Animation.pauseAnimation()
         }
@@ -86,18 +81,6 @@ class FirstScreenFragment : Fragment() {
         anim.duration = duration
         pb.animation = anim
     }
-
-//    private fun startProgress() {
-//        val animator = ValueAnimator.ofInt(0, 100)
-//        animator.addUpdateListener { animation ->
-//            val progress = animation.animatedValue as Int
-//            progressBar.setProgress(progress)
-//            percentage_progress.text = "${progress}%"
-//        }
-//        //animator.repeatCount = ValueAnimator.INFINITE
-//        animator.duration = 14000
-//        animator.start()
-//    }
 
     private fun show_my_dialog() {
         val builder = AlertDialog.Builder(activity)
@@ -150,11 +133,7 @@ class FirstScreenFragment : Fragment() {
         }
         startProgressBad(progressBar, percentage_progress, 14000, progressB?: 0)
         start_anim_btn.setOnClickListener {
-            startProgressBad(progressBar, percentage_progress, 14000, progressB?: 0)
-            if (lottieP!= null){
-                my_Animation.progress = lottieP!!
-                my_Animation.resumeAnimation()
-            }
+            my_Animation.playAnimation()
         }
     }
 }
