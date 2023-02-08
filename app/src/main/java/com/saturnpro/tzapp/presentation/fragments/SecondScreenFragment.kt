@@ -106,7 +106,8 @@ class SecondScreenFragment : Fragment() {
         raitingAdapter.onItemClick = {
             print("tap on me again...")
         }
-
+        downloadDataProgressBar
+        startProgressDownload()
     }
 
     private fun startProgress() {
@@ -129,6 +130,18 @@ class SecondScreenFragment : Fragment() {
         animator2.duration = randomTwo.toLong()
         animator.start()
         animator2.start()
+    }
+
+        private fun startProgressDownload() {
+        val animator = ValueAnimator.ofInt(0, 100)
+        animator.addUpdateListener { animation ->
+            val progress = animation.animatedValue as Int
+            downloadDataProgressBar.setProgress(progress)
+            loadDataPercentageTxt.text = "${progress}%"
+        }
+        //animator.repeatCount = ValueAnimator.INFINITE
+        animator.duration = 3000
+        animator.start()
     }
 
     private fun startTimer() {

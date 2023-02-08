@@ -86,7 +86,7 @@
                     android:id="@+id/im1"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:src="@drawable/ic_brightness_1_24"
+                    android:src="@drawable/gradi"
                     app:layout_constraintBottom_toBottomOf="@+id/tire1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -95,7 +95,7 @@
                     android:id="@+id/tire1"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_remove_24"
+                    android:src="@drawable/remo"
                     app:layout_constraintStart_toEndOf="@id/im1"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -103,7 +103,7 @@
                     android:id="@+id/im2"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:src="@drawable/ic_left_circle_1_svgrepo_com"
+                    android:src="@drawable/das"
                     app:layout_constraintBottom_toBottomOf="@+id/tire2"
                     app:layout_constraintStart_toEndOf="@id/tire1"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -112,7 +112,7 @@
                     android:id="@+id/tire2"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_remove_24"
+                    android:src="@drawable/remo"
                     app:layout_constraintStart_toEndOf="@id/im2"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -120,7 +120,7 @@
                     android:id="@+id/im3"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:src="@drawable/ic_baseline_panorama_fish_eye_24"
+                    android:src="@drawable/dotanim"
                     app:layout_constraintBottom_toBottomOf="@+id/tire3"
                     app:layout_constraintStart_toEndOf="@id/tire2"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -129,7 +129,7 @@
                     android:id="@+id/tire3"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_remove_24"
+                    android:src="@drawable/remo"
                     app:layout_constraintStart_toEndOf="@id/im3"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -137,7 +137,7 @@
                     android:id="@+id/im4"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:src="@drawable/ic_baseline_panorama_fish_eye2_24"
+                    android:src="@drawable/elips"
                     app:layout_constraintBottom_toBottomOf="@+id/tire3"
                     app:layout_constraintStart_toEndOf="@id/tire3"
                     app:layout_constraintTop_toTopOf="parent" />

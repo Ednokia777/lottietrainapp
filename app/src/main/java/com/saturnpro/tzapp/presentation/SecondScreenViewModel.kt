@@ -22,12 +22,12 @@ class SecondScreenViewModel @Inject constructor(
     }
 
     fun getLottiProgress(): Float? = animatiponP.value
-    fun setLottiProgress(progress: Float) {
+    fun setLottie(progress: Float) {
         animatiponP.value = progress
     }
 
     fun getPbProgress(): Int? = progressBar.value
-    fun setPbProgress(progress: Int) {
+    fun setProgress(progress: Int) {
         progressBar.value = progress
     }
 

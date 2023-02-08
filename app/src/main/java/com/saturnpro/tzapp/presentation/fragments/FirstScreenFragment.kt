@@ -1,9 +1,7 @@
 package com.saturnpro.tzapp.presentation.fragments
 
-import android.animation.ValueAnimator
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -114,21 +112,21 @@ class FirstScreenFragment : Fragment() {
         dialog.show()
     }
 
-    private fun saveAnimState() {
+    private fun saveLottie() {
         val anim = my_Animation
-        viewModel.setLottiProgress(anim.progress)
+        viewModel.setLottie(anim.progress)
         anim.pauseAnimation()
 
     }
-    private fun savePbState(){
-        viewModel.setPbProgress(binding.progressBar.progress)
+    private fun saveProgress(){
+        viewModel.setProgress(binding.progressBar.progress)
         binding.progressBar.animation = null
     }
 
     override fun onStop() {
         super.onStop()
-        saveAnimState()
-        savePbState()
+        saveLottie()
+        saveProgress()
     }
 
     override fun onResume() {
@@ -136,25 +134,25 @@ class FirstScreenFragment : Fragment() {
         startProgressAndLottie()
     }
     private fun startProgressAndLottie() {
-        var lottiProgress: Float? = viewModel.getLottiProgress()
-        var pbProgress: Int? = viewModel.getPbProgress()
+        var lottieP: Float? = viewModel.getLottiProgress()
+        var progressB: Int? = viewModel.getPbProgress()
         viewModel.animatiponP.observe(this.viewLifecycleOwner, { progress ->
-            lottiProgress = progress
+            lottieP = progress
         })
         viewModel.progressBar.observe(this.viewLifecycleOwner, { progress ->
-            pbProgress = pbProgress
+            progressB = progressB
         })
-        if (lottiProgress != null){
-            my_Animation.progress = lottiProgress!!
+        if (lottieP != null){
+            my_Animation.progress = lottieP!!
             my_Animation.resumeAnimation()
         }else{
             my_Animation.playAnimation()
         }
-        startProgressBad(progressBar, percentage_progress, 14000, pbProgress?: 0)
+        startProgressBad(progressBar, percentage_progress, 14000, progressB?: 0)
         start_anim_btn.setOnClickListener {
-            startProgressBad(progressBar, percentage_progress, 14000, pbProgress?: 0)
-            if (lottiProgress!= null){
-                my_Animation.progress = lottiProgress!!
+            startProgressBad(progressBar, percentage_progress, 14000, progressB?: 0)
+            if (lottieP!= null){
+                my_Animation.progress = lottieP!!
                 my_Animation.resumeAnimation()
             }
         }
