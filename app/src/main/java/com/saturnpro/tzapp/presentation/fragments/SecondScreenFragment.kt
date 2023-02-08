@@ -3,6 +3,7 @@ package com.saturnpro.tzapp.presentation.fragments
 import android.animation.ValueAnimator
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,34 +12,46 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.saturnpro.tzapp.R
-import com.saturnpro.tzapp.databinding.FragmentFirstScreenBinding
 import com.saturnpro.tzapp.databinding.FragmentSecondScreenBinding
+import com.saturnpro.tzapp.presentation.SecondScreenViewModel
+import com.saturnpro.tzapp.presentation.adapter.CardRaitingAdapter
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SecondScreenFragment : Fragment() {
 
+    private val viewModel: SecondScreenViewModel by viewModels()
+
+
     private lateinit var binding: FragmentSecondScreenBinding
+
+    @Inject
+    lateinit var raitingAdapter: CardRaitingAdapter
+
     private lateinit var randomValuePercentageTxt: TextView
     private lateinit var randomValuePercentageTxtTwo: TextView
     private lateinit var hoursTxt: TextView
     private lateinit var minutesTxt: TextView
     private lateinit var secondsTxt: TextView
     private lateinit var loadDataPercentageTxt: TextView
-
     private lateinit var randomProgressBar: ProgressBar
     private lateinit var randomProgressBarTwo: ProgressBar
     private lateinit var downloadDataProgressBar: ProgressBar
-
     private lateinit var backButton: ImageView
     private lateinit var randomizeValuesButton: Button
-
-    private lateinit var recyclerView: RecyclerView
-
-    private var duration = 3700
+    //private lateinit var recyclerView: RecyclerView
+    private var duration = 3600
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,12 +70,31 @@ class SecondScreenFragment : Fragment() {
         downloadDataProgressBar = binding.downloadFromServerProgressBar
         backButton = binding.backbutton
         randomizeValuesButton = binding.randomizeBtn
-        recyclerView = binding.rv
+        binding.rv.setHasFixedSize(true)
+        binding.rv.layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.HORIZONTAL, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        lifecycleScope.launch {
+            withContext(Dispatchers.Main) {
+                try {
+                    viewModel.getRaitingsList()
+                    viewModel.raitingsLiveData.observe(viewLifecycleOwner) {
+                        Log.d("raitings", it.toString())
+                        if(it != null) {
+                            raitingAdapter.uploadData(it)
+                            binding.rv.adapter = raitingAdapter
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
         backButton.setOnClickListener {
             findNavController().navigate(R.id.action_secondScreenFragment_to_firstScreenFragment)
         }
@@ -70,8 +102,10 @@ class SecondScreenFragment : Fragment() {
         randomizeValuesButton.setOnClickListener {
             startProgress()
         }
-
         startTimer()
+        raitingAdapter.onItemClick = {
+            print("tap on me again...")
+        }
 
     }
 
@@ -98,9 +132,6 @@ class SecondScreenFragment : Fragment() {
     }
 
     private fun startTimer() {
-
-
-
         object : CountDownTimer((duration * 1000).toLong(), 1000) { // 10 saniye içinde 1 saniye aralıklarla işimizi yapıyoruz.
             override fun onTick(millisUntilFinished: Long) {
                 var time = String.format(

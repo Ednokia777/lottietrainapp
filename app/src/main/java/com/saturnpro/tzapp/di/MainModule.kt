@@ -1,5 +1,6 @@
 package com.saturnpro.tzapp.di
 
+import com.saturnpro.tzapp.presentation.adapter.CardRaitingAdapter
 import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
@@ -23,16 +24,16 @@ object MainModule {
     fun providePicasso(): Picasso = Picasso.get()
 
 
-//    @Singleton
-//    @Provides
-//    fun provideCardAdapter(
-//        picasso: Picasso
-//    ): CardAdapter = CardAdapter(picasso)
+    @Singleton
+    @Provides
+    fun provideCardAdapter(
+        picasso: Picasso
+    ): CardRaitingAdapter = CardRaitingAdapter(picasso)
 
     @Singleton
     @Provides
     @Named("domain")
-    fun provideMainDomain(): String = "https://auroraback.stnsystem2.tk"
+    fun provideMainDomain(): String = "https://wowowcleaner.com"
 
 
 }

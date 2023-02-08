@@ -6,5 +6,5 @@ import retrofit2.http.GET
 
 interface DownloadApi {
     @GET("/testAndroidData")
-    fun getAllRaitings(): Call<List<RaitingModel>?>
+    suspend fun getAllRaitings(): RaitingModel
 }

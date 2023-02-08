@@ -3,6 +3,7 @@ package com.saturnpro.tzapp.presentation.fragments
 import android.animation.ValueAnimator
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +11,19 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.airbnb.lottie.LottieAnimationView
 import com.saturnpro.tzapp.R
 import com.saturnpro.tzapp.databinding.FragmentFirstScreenBinding
+import com.saturnpro.tzapp.presentation.ProgressBarAnimation
+import com.saturnpro.tzapp.presentation.SecondScreenViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FirstScreenFragment : Fragment() {
+    private val viewModel: SecondScreenViewModel by viewModels()
+
     private lateinit var binding: FragmentFirstScreenBinding
     private lateinit var go_to_second_screen: Button
     private lateinit var start_anim_btn: Button
@@ -48,7 +56,8 @@ class FirstScreenFragment : Fragment() {
         go_to_second_screen.setOnClickListener {
             findNavController().navigate(R.id.action_firstScreenFragment_to_secondScreenFragment)
         }
-        startProgress()
+        //startProgress()
+        startProgressAndLottie()
         start_anim_btn.setOnClickListener {
             my_Animation.playAnimation()
         }
@@ -67,17 +76,30 @@ class FirstScreenFragment : Fragment() {
         }
     }
 
-    private fun startProgress() {
-        val animator = ValueAnimator.ofInt(0, 100)
-        animator.addUpdateListener { animation ->
-            val progress = animation.animatedValue as Int
-            progressBar.setProgress(progress)
-            percentage_progress.text = "${progress}%"
-        }
-        //animator.repeatCount = ValueAnimator.INFINITE
-        animator.duration = 14000
-        animator.start()
+    private fun startProgressBad(
+        pb: ProgressBar,
+        tv: TextView,
+        duration: Long,
+        from: Int
+    ) {
+        pb.max = 100
+        pb.scaleY = 3f
+        val anim = ProgressBarAnimation(pb, tv, from.toFloat(), 100f)
+        anim.duration = duration
+        pb.animation = anim
     }
+
+//    private fun startProgress() {
+//        val animator = ValueAnimator.ofInt(0, 100)
+//        animator.addUpdateListener { animation ->
+//            val progress = animation.animatedValue as Int
+//            progressBar.setProgress(progress)
+//            percentage_progress.text = "${progress}%"
+//        }
+//        //animator.repeatCount = ValueAnimator.INFINITE
+//        animator.duration = 14000
+//        animator.start()
+//    }
 
     private fun show_my_dialog() {
         val builder = AlertDialog.Builder(activity)
@@ -92,11 +114,49 @@ class FirstScreenFragment : Fragment() {
         dialog.show()
     }
 
-    override fun onResume() {
-        super.onResume()
+    private fun saveAnimState() {
+        val anim = my_Animation
+        viewModel.setLottiProgress(anim.progress)
+        anim.pauseAnimation()
+
+    }
+    private fun savePbState(){
+        viewModel.setPbProgress(binding.progressBar.progress)
+        binding.progressBar.animation = null
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onStop() {
+        super.onStop()
+        saveAnimState()
+        savePbState()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        startProgressAndLottie()
+    }
+    private fun startProgressAndLottie() {
+        var lottiProgress: Float? = viewModel.getLottiProgress()
+        var pbProgress: Int? = viewModel.getPbProgress()
+        viewModel.animatiponP.observe(this.viewLifecycleOwner, { progress ->
+            lottiProgress = progress
+        })
+        viewModel.progressBar.observe(this.viewLifecycleOwner, { progress ->
+            pbProgress = pbProgress
+        })
+        if (lottiProgress != null){
+            my_Animation.progress = lottiProgress!!
+            my_Animation.resumeAnimation()
+        }else{
+            my_Animation.playAnimation()
+        }
+        startProgressBad(progressBar, percentage_progress, 14000, pbProgress?: 0)
+        start_anim_btn.setOnClickListener {
+            startProgressBad(progressBar, percentage_progress, 14000, pbProgress?: 0)
+            if (lottiProgress!= null){
+                my_Animation.progress = lottiProgress!!
+                my_Animation.resumeAnimation()
+            }
+        }
     }
 }

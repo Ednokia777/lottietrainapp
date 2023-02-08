@@ -8,4 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="tzcolor">#FF313841</color>
+    <color name="raitingcards">#FF27292C</color>
+    <color name="my_color">#FF00A3FE</color>
+    <color name="red">#FF1466</color>
+    <color name="brown">#7D1485</color>
+    <color name="light_grey">#535252</color>
 </resources>
