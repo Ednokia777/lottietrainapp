@@ -37,19 +37,12 @@ class FirstScreenFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentFirstScreenBinding.inflate(inflater)
-        go_to_second_screen = binding.goToSecondScreenBtn
-        start_anim_btn = binding.startAnimBtn
-        stop_anim_btn = binding.stopAnimBtn
-        hide_anim_btn = binding.hideShowAnimBtn
-        open_dialog_btn = binding.showCustomAlertBtn
-        progressBar = binding.progressBar
-        percentage_progress = binding.percentage
-        my_Animation = binding.lottieAnim
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        init()
         go_to_second_screen.setOnClickListener {
             findNavController().navigate(R.id.action_firstScreenFragment_to_secondScreenFragment)
         }
@@ -67,6 +60,17 @@ class FirstScreenFragment : Fragment() {
         open_dialog_btn.setOnClickListener {
             show_my_dialog()
         }
+    }
+
+    private fun init() {
+        go_to_second_screen = binding.goToSecondScreenBtn
+        start_anim_btn = binding.startAnimBtn
+        stop_anim_btn = binding.stopAnimBtn
+        hide_anim_btn = binding.hideShowAnimBtn
+        open_dialog_btn = binding.showCustomAlertBtn
+        progressBar = binding.progressBar
+        percentage_progress = binding.percentage
+        my_Animation = binding.lottieAnim
     }
 
     private fun startProgressBad(

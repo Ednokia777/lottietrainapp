@@ -46,15 +46,16 @@
 
         <ProgressBar
             android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleHorizontal"
+            style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="10dp"
             android:progressDrawable="@drawable/custom_progressbar"
             android:progress="0"
             android:layout_marginTop="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            android:background="@drawable/shape_progressbar"/>
     </LinearLayout>
 
     <TextView
